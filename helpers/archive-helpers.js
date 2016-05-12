@@ -59,9 +59,8 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urlArr) {
-  fs.appendFile(exports.paths.list, 'utf8', function(err) {
-    if (!err) {
-      urlArr = urlArr.join('\n');
-    }
+  urlArr.forEach(function(url) {
+    var path = exports.paths.archivedSites + '/' + url;
+    fs.open(path, 'wx');
   });
 };
