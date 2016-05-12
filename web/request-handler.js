@@ -39,14 +39,12 @@ exports.handleRequest = function(request, response) {
     statusCode = 302;
     request.on('data', function(data) {
       var filePath = archive.paths.list;
+      data = data.toString().slice(4) + '\n';
       fs.appendFile(filePath, data, function(err) {
-        if (err) {
-          throw err;
+        if (!err) {
+          response.writeHead(statusCode, helpers.headers);
+          response.end(data);
         }
-        result = data.toString().slice(4) + '\n';
-        console.log(result);
-        response.writeHead(statusCode, helpers.headers);
-        response.end(result);
       });
     });
   } 

@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var expect = require('chai').expect;
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -25,18 +26,42 @@ exports.initialize = function(pathsObj) {
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function() {
-  
+exports.readListOfUrls = function(callback) {
+  fs.readFile(exports.paths.list, 'utf8', function(err, contents) {
+    if (!err) {
+      callback(contents.split('\n'));
+    }
+  });
 };
 
-exports.isUrlInList = function() {
+exports.isUrlInList = function(url, callback) {
+  fs.readFile(exports.paths.list, 'utf8', function(err, contents) {
+    if (!err) {
+      callback(_.contains(contents.split('\n'), url));
+    }
+  });
 };
 
-exports.addUrlToList = function() {
+exports.addUrlToList = function(url, callback) {
+  fs.readFile(exports.paths.list, 'utf8', function(err, contents) {
+    if (!err) {
+      callback(contents.split('\n').push(url));
+    }
+  });
 };
 
-exports.isUrlArchived = function() {
+exports.isUrlArchived = function(url, callback) {
+  fs.readFile(exports.paths.list, 'utf8', function(err, contents) {
+    if (!err) {
+      callback(_.contains(contents.split('\n'), url));
+    }
+  });
 };
 
-exports.downloadUrls = function() {
+exports.downloadUrls = function(urlArr) {
+  fs.appendFile(exports.paths.list, 'utf8', function(err) {
+    if (!err) {
+      urlArr = urlArr.join('\n');
+    }
+  });
 };
